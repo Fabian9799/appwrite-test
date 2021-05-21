@@ -3,12 +3,9 @@
 </script>
 
 <script>
-	import { Appwrite } from "appwrite";
 	import { onMount } from "svelte";
-	let sdk = new Appwrite();
-
-	sdk.setEndpoint("https://api.fa97.de/v1") // Your API Endpoint
-		.setProject("60a2e6bf46842"); // Your project ID
+	import {sdk} from "../appwrite"
+	let name = "Please log in!"
 
 	onMount(() => {
 		let promise = sdk.account.get();
@@ -16,6 +13,7 @@
 		promise.then(
 			function (response) {
 				console.log(response); // Success
+				name = response.name
 			},
 			function (error) {
 				console.log(error); // Failure
@@ -31,14 +29,15 @@
 			"http://localhost:3000"
 		);
 	}
+
 </script>
 
 <svelte:head>
 	<title>Home</title>
 </svelte:head>
-<h1>TEST</h1>
+<h1 class="mx-10 px-3 py-2">{name}</h1>
 <button
 	on:click={loginDiscord}
-	class="m-10 border-2 border-blue-600 rounded-lg px-3 py-2 text-blue-400 cursor-pointer hover:bg-blue-600 hover:text-blue-200"
+	class="mx-10 border-2 border-blue-600 rounded-lg px-3 py-2 text-blue-400 cursor-pointer hover:bg-blue-600 hover:text-blue-200"
 	>Login with Discord</button
 >

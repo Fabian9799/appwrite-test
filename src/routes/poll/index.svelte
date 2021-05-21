@@ -1,22 +1,22 @@
 <script>
     let data;
-    import { Appwrite } from "appwrite";
-    let sdk = new Appwrite();
+    import { onMount } from "svelte";
+    import {sdk} from "../../appwrite"
 
-    sdk.setEndpoint("https://api.fa97.de/v1") // Your API Endpoint
-        .setProject("60a2e6bf46842"); // Your project ID
 
-    let promise = sdk.database.listDocuments("60a4524fa1134");
+    onMount(() => {
+        let promise = sdk.database.listDocuments("60a4524fa1134");
 
-    promise.then(
-        function (response) {
-            console.log(response);
-            data = response.documents;
-        },
-        function (error) {
-            console.log(error); // Failure
-        }
-    );
+        promise.then(
+            function (response) {
+                console.log(response);
+                data = response.documents;
+            },
+            function (error) {
+                console.log(error); // Failure
+            }
+        );
+    });
 </script>
 
 <section class="bg-white">
@@ -25,7 +25,9 @@
             <!-- Column Content -->
         </div>
 
-        <div class="shadow-2xl w-full overflow-hidden md:w-1/3 lg:w-1/3 xl:w-1/3 m-20 bg-gradient-to-r from-blue-500 to-blue-700 rounded-md">
+        <div
+            class="shadow-2xl w-full overflow-hidden md:w-1/3 lg:w-1/3 xl:w-1/3 m-20 bg-gradient-to-r from-blue-500 to-blue-700 rounded-md"
+        >
             <div class="shadow-md rounded-md overflow-hidden text-center">
                 <div class="text-white m-5 text-5xl font-semibold">
                     Questions
