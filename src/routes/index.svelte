@@ -33,7 +33,7 @@
 </script>
 
 <svelte:head>
-	<title>Home</title>
+	<title>Discord login</title>
 </svelte:head>
 <h1 class="mx-10 px-3 py-2">{name}</h1>
 <button
