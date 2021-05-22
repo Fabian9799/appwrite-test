@@ -25,8 +25,8 @@
 	function loginDiscord() {
 		sdk.account.createOAuth2Session(
 			"discord",
-			"http://localhost:3000",
-			"http://localhost:3000"
+			"https://appwrite-test.fabian9799.cloud/",
+			"https://appwrite-test.fabian9799.cloud/"
 		);
 	}
 

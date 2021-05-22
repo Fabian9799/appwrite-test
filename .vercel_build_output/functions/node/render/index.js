@@ -12910,7 +12910,7 @@ var Appwrite = class {
       locale: ""
     };
     this.headers = {
-      "x-sdk-version": "appwrite:web:3.0.0",
+      "x-sdk-version": "appwrite:web:3.0.3",
       "X-Appwrite-Response-Format": "0.8.0"
     };
     this.account = {
@@ -13155,9 +13155,10 @@ var Appwrite = class {
         }
         const uri = new URL(this.config.endpoint + path);
         payload["project"] = this.config.project;
-        const query = new URLSearchParams(payload);
-        uri.search = query.toString();
-        if (window === null || window === void 0 ? void 0 : window.location) {
+        for (const [key, value] of Object.entries(this.flatten(payload))) {
+          uri.searchParams.append(key, value);
+        }
+        if (typeof window !== "undefined" && (window === null || window === void 0 ? void 0 : window.location)) {
           window.location.href = uri.toString();
         } else {
           return uri;
@@ -13227,9 +13228,9 @@ var Appwrite = class {
         }
         const uri = new URL(this.config.endpoint + path);
         payload["project"] = this.config.project;
-        payload["jwt"] = this.config.jwt;
-        const query = new URLSearchParams(payload);
-        uri.search = query.toString();
+        for (const [key, value] of Object.entries(this.flatten(payload))) {
+          uri.searchParams.append(key, value);
+        }
         return uri;
       },
       getCreditCard: (code, width = 100, height = 100, quality = 100) => {
@@ -13249,9 +13250,9 @@ var Appwrite = class {
         }
         const uri = new URL(this.config.endpoint + path);
         payload["project"] = this.config.project;
-        payload["jwt"] = this.config.jwt;
-        const query = new URLSearchParams(payload);
-        uri.search = query.toString();
+        for (const [key, value] of Object.entries(this.flatten(payload))) {
+          uri.searchParams.append(key, value);
+        }
         return uri;
       },
       getFavicon: (url) => {
@@ -13265,9 +13266,9 @@ var Appwrite = class {
         }
         const uri = new URL(this.config.endpoint + path);
         payload["project"] = this.config.project;
-        payload["jwt"] = this.config.jwt;
-        const query = new URLSearchParams(payload);
-        uri.search = query.toString();
+        for (const [key, value] of Object.entries(this.flatten(payload))) {
+          uri.searchParams.append(key, value);
+        }
         return uri;
       },
       getFlag: (code, width = 100, height = 100, quality = 100) => {
@@ -13287,9 +13288,9 @@ var Appwrite = class {
         }
         const uri = new URL(this.config.endpoint + path);
         payload["project"] = this.config.project;
-        payload["jwt"] = this.config.jwt;
-        const query = new URLSearchParams(payload);
-        uri.search = query.toString();
+        for (const [key, value] of Object.entries(this.flatten(payload))) {
+          uri.searchParams.append(key, value);
+        }
         return uri;
       },
       getImage: (url, width = 400, height = 400) => {
@@ -13309,9 +13310,9 @@ var Appwrite = class {
         }
         const uri = new URL(this.config.endpoint + path);
         payload["project"] = this.config.project;
-        payload["jwt"] = this.config.jwt;
-        const query = new URLSearchParams(payload);
-        uri.search = query.toString();
+        for (const [key, value] of Object.entries(this.flatten(payload))) {
+          uri.searchParams.append(key, value);
+        }
         return uri;
       },
       getInitials: (name = "", width = 500, height = 500, color = "", background = "") => {
@@ -13334,9 +13335,9 @@ var Appwrite = class {
         }
         const uri = new URL(this.config.endpoint + path);
         payload["project"] = this.config.project;
-        payload["jwt"] = this.config.jwt;
-        const query = new URLSearchParams(payload);
-        uri.search = query.toString();
+        for (const [key, value] of Object.entries(this.flatten(payload))) {
+          uri.searchParams.append(key, value);
+        }
         return uri;
       },
       getQR: (text, size = 400, margin = 1, download = false) => {
@@ -13359,9 +13360,9 @@ var Appwrite = class {
         }
         const uri = new URL(this.config.endpoint + path);
         payload["project"] = this.config.project;
-        payload["jwt"] = this.config.jwt;
-        const query = new URLSearchParams(payload);
-        uri.search = query.toString();
+        for (const [key, value] of Object.entries(this.flatten(payload))) {
+          uri.searchParams.append(key, value);
+        }
         return uri;
       }
     };
@@ -13690,9 +13691,9 @@ var Appwrite = class {
         let payload = {};
         const uri = new URL(this.config.endpoint + path);
         payload["project"] = this.config.project;
-        payload["jwt"] = this.config.jwt;
-        const query = new URLSearchParams(payload);
-        uri.search = query.toString();
+        for (const [key, value] of Object.entries(this.flatten(payload))) {
+          uri.searchParams.append(key, value);
+        }
         return uri;
       },
       getFilePreview: (fileId, width = 0, height = 0, quality = 100, borderWidth = 0, borderColor = "", borderRadius = 0, opacity = 1, rotation = 0, background = "", output = "") => {
@@ -13733,9 +13734,9 @@ var Appwrite = class {
         }
         const uri = new URL(this.config.endpoint + path);
         payload["project"] = this.config.project;
-        payload["jwt"] = this.config.jwt;
-        const query = new URLSearchParams(payload);
-        uri.search = query.toString();
+        for (const [key, value] of Object.entries(this.flatten(payload))) {
+          uri.searchParams.append(key, value);
+        }
         return uri;
       },
       getFileView: (fileId) => {
@@ -13746,9 +13747,9 @@ var Appwrite = class {
         let payload = {};
         const uri = new URL(this.config.endpoint + path);
         payload["project"] = this.config.project;
-        payload["jwt"] = this.config.jwt;
-        const query = new URLSearchParams(payload);
-        uri.search = query.toString();
+        for (const [key, value] of Object.entries(this.flatten(payload))) {
+          uri.searchParams.append(key, value);
+        }
         return uri;
       }
     };
@@ -13979,7 +13980,9 @@ var Appwrite = class {
         headers["X-Fallback-Cookies"] = (_a = window.localStorage.getItem("cookieFallback")) !== null && _a !== void 0 ? _a : "";
       }
       if (method === "GET") {
-        url.search = new URLSearchParams(this.flatten(params)).toString();
+        for (const [key, value] of Object.entries(this.flatten(params))) {
+          url.searchParams.append(key, value);
+        }
       } else {
         switch (headers["content-type"]) {
           case "application/json":
@@ -14122,9 +14125,9 @@ function init(settings) {
     amp: false,
     dev: false,
     entry: {
-      file: "/./_app/start-9cb8edac.js",
+      file: "/./_app/start-c564c7ba.js",
       css: ["/./_app/assets/start-0826e215.css"],
-      js: ["/./_app/start-9cb8edac.js", "/./_app/chunks/vendor-16a56b55.js"]
+      js: ["/./_app/start-c564c7ba.js", "/./_app/chunks/vendor-d2e7b85d.js"]
     },
     fetched: void 0,
     floc: false,
@@ -14200,7 +14203,7 @@ var module_lookup = {
     return _id_;
   })
 };
-var metadata_lookup = {"src/routes/__layout.svelte": {"entry": "/./_app/pages/__layout.svelte-8ee82ce6.js", "css": ["/./_app/assets/pages/__layout.svelte-590f7f12.css"], "js": ["/./_app/pages/__layout.svelte-8ee82ce6.js", "/./_app/chunks/vendor-16a56b55.js"], "styles": null}, ".svelte-kit/build/components/error.svelte": {"entry": "/./_app/error.svelte-38175b90.js", "css": [], "js": ["/./_app/error.svelte-38175b90.js", "/./_app/chunks/vendor-16a56b55.js"], "styles": null}, "src/routes/index.svelte": {"entry": "/./_app/pages/index.svelte-d51ceffa.js", "css": [], "js": ["/./_app/pages/index.svelte-d51ceffa.js", "/./_app/chunks/vendor-16a56b55.js", "/./_app/chunks/appwrite-7a923296.js"], "styles": null}, "src/routes/poll/index.svelte": {"entry": "/./_app/pages/poll/index.svelte-cad70500.js", "css": [], "js": ["/./_app/pages/poll/index.svelte-cad70500.js", "/./_app/chunks/vendor-16a56b55.js", "/./_app/chunks/appwrite-7a923296.js"], "styles": null}, "src/routes/poll/[id].svelte": {"entry": "/./_app/pages/poll/[id].svelte-565f2472.js", "css": [], "js": ["/./_app/pages/poll/[id].svelte-565f2472.js", "/./_app/chunks/vendor-16a56b55.js"], "styles": null}};
+var metadata_lookup = {"src/routes/__layout.svelte": {"entry": "/./_app/pages/__layout.svelte-84590fa5.js", "css": ["/./_app/assets/pages/__layout.svelte-590f7f12.css"], "js": ["/./_app/pages/__layout.svelte-84590fa5.js", "/./_app/chunks/vendor-d2e7b85d.js"], "styles": null}, ".svelte-kit/build/components/error.svelte": {"entry": "/./_app/error.svelte-a8d56f5f.js", "css": [], "js": ["/./_app/error.svelte-a8d56f5f.js", "/./_app/chunks/vendor-d2e7b85d.js"], "styles": null}, "src/routes/index.svelte": {"entry": "/./_app/pages/index.svelte-97058010.js", "css": [], "js": ["/./_app/pages/index.svelte-97058010.js", "/./_app/chunks/vendor-d2e7b85d.js", "/./_app/chunks/appwrite-2a3bdbb5.js"], "styles": null}, "src/routes/poll/index.svelte": {"entry": "/./_app/pages/poll/index.svelte-d7672aa7.js", "css": [], "js": ["/./_app/pages/poll/index.svelte-d7672aa7.js", "/./_app/chunks/vendor-d2e7b85d.js", "/./_app/chunks/appwrite-2a3bdbb5.js"], "styles": null}, "src/routes/poll/[id].svelte": {"entry": "/./_app/pages/poll/[id].svelte-20e4fa4e.js", "css": [], "js": ["/./_app/pages/poll/[id].svelte-20e4fa4e.js", "/./_app/chunks/vendor-d2e7b85d.js", "/./_app/chunks/appwrite-2a3bdbb5.js"], "styles": null}};
 async function load_component(file) {
   return {
     module: await module_lookup[file](),
@@ -14337,10 +14340,8 @@ var U5Bidu5D = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let status = 0;
   let data;
   let question;
-  let sdk2 = new Appwrite();
-  sdk2.setEndpoint("https://api.fa97.de/v1").setProject("60a2e6bf46842");
   onMount(() => {
-    let promise = sdk2.database.getDocument("60a4524fa1134", slug);
+    let promise = sdk.database.getDocument("60a4524fa1134", slug);
     promise.then(function(response) {
       data = response;
       status = 1;
