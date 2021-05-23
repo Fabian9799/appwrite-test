@@ -9033,9 +9033,9 @@ var require_asynckit = __commonJS({
   }
 });
 
-// node_modules/form-data/lib/populate.js
+// node_modules/isomorphic-form-data/node_modules/form-data/lib/populate.js
 var require_populate = __commonJS({
-  "node_modules/form-data/lib/populate.js"(exports, module2) {
+  "node_modules/isomorphic-form-data/node_modules/form-data/lib/populate.js"(exports, module2) {
     module2.exports = function(dst, src2) {
       Object.keys(src2).forEach(function(prop) {
         dst[prop] = dst[prop] || src2[prop];
@@ -9045,9 +9045,9 @@ var require_populate = __commonJS({
   }
 });
 
-// node_modules/form-data/lib/form_data.js
+// node_modules/isomorphic-form-data/node_modules/form-data/lib/form_data.js
 var require_form_data = __commonJS({
-  "node_modules/form-data/lib/form_data.js"(exports, module2) {
+  "node_modules/isomorphic-form-data/node_modules/form-data/lib/form_data.js"(exports, module2) {
     var CombinedStream = require_combined_stream();
     var util = require("util");
     var path = require("path");
@@ -9055,7 +9055,6 @@ var require_form_data = __commonJS({
     var https2 = require("https");
     var parseUrl = require("url").parse;
     var fs = require("fs");
-    var Stream2 = require("stream").Stream;
     var mime = require_mime_types();
     var asynckit = require_asynckit();
     var populate = require_populate();
@@ -9063,7 +9062,7 @@ var require_form_data = __commonJS({
     util.inherits(FormData2, CombinedStream);
     function FormData2(options2) {
       if (!(this instanceof FormData2)) {
-        return new FormData2(options2);
+        return new FormData2();
       }
       this._overheadLength = 0;
       this._valueLength = 0;
@@ -9107,7 +9106,7 @@ var require_form_data = __commonJS({
       }
       this._valueLength += valueLength;
       this._overheadLength += Buffer.byteLength(header) + FormData2.LINE_BREAK.length;
-      if (!value || !value.path && !(value.readable && value.hasOwnProperty("httpVersion")) && !(value instanceof Stream2)) {
+      if (!value || !value.path && !(value.readable && value.hasOwnProperty("httpVersion"))) {
         return;
       }
       if (!options2.knownLength) {
@@ -9230,9 +9229,6 @@ var require_form_data = __commonJS({
       }
       return formHeaders;
     };
-    FormData2.prototype.setBoundary = function(boundary) {
-      this._boundary = boundary;
-    };
     FormData2.prototype.getBoundary = function() {
       if (!this._boundary) {
         this._generateBoundary();
@@ -9323,24 +9319,15 @@ var require_form_data = __commonJS({
         request = http2.request(options2);
       }
       this.getLength(function(err, length) {
-        if (err && err !== "Unknown stream") {
+        if (err) {
           this._error(err);
           return;
         }
-        if (length) {
-          request.setHeader("Content-Length", length);
-        }
+        request.setHeader("Content-Length", length);
         this.pipe(request);
         if (cb) {
-          var onResponse;
-          var callback = function(error3, responce) {
-            request.removeListener("error", callback);
-            request.removeListener("response", onResponse);
-            return cb.call(this, error3, responce);
-          };
-          onResponse = callback.bind(this, null);
-          request.on("error", callback);
-          request.on("response", onResponse);
+          request.on("error", cb);
+          request.on("response", cb.bind(this, null));
         }
       }.bind(this));
       return request;
@@ -9358,8 +9345,15 @@ var require_form_data = __commonJS({
   }
 });
 
-// node_modules/node-fetch/lib/index.js
+// node_modules/isomorphic-form-data/lib/index.js
 var require_lib = __commonJS({
+  "node_modules/isomorphic-form-data/lib/index.js"(exports, module2) {
+    global.FormData = module2.exports = require_form_data();
+  }
+});
+
+// node_modules/node-fetch/lib/index.js
+var require_lib2 = __commonJS({
   "node_modules/node-fetch/lib/index.js"(exports, module2) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {value: true});
@@ -10406,7 +10400,7 @@ var require_lib = __commonJS({
 // node_modules/cross-fetch/dist/node-ponyfill.js
 var require_node_ponyfill = __commonJS({
   "node_modules/cross-fetch/dist/node-ponyfill.js"(exports, module2) {
-    var nodeFetch = require_lib();
+    var nodeFetch = require_lib2();
     var realFetch = nodeFetch.default || nodeFetch;
     var fetch4 = function(url, options2) {
       if (/^\/\//.test(url)) {
@@ -12862,8 +12856,10 @@ function v4() {
   return out;
 }
 
-// node_modules/appwrite/dist/esm/sdk.js
-var __awaiter = function(thisArg, _arguments, P, generator) {
+// node_modules/aw-test-rollup/dist/esm/sdk.js
+var import_isomorphic_form_data = __toModule(require_lib());
+var import_cross_fetch = __toModule(require_node_ponyfill());
+function __awaiter(thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function(resolve2) {
       resolve2(value);
@@ -12889,9 +12885,7 @@ var __awaiter = function(thisArg, _arguments, P, generator) {
     }
     step((generator = generator.apply(thisArg, _arguments || [])).next());
   });
-};
-var FormData = typeof window === "undefined" ? require_form_data() : window.FormData;
-var fetch3 = typeof window === "undefined" ? require_node_ponyfill() : window.fetch;
+}
 var AppwriteException = class extends Error {
   constructor(message, code = 0, response = "") {
     super(message);
@@ -14004,7 +13998,7 @@ var Appwrite = class {
       }
       try {
         let data = null;
-        const response = yield fetch3(url.toString(), options2);
+        const response = yield (0, import_cross_fetch.fetch)(url.toString(), options2);
         if ((_b = response.headers.get("content-type")) === null || _b === void 0 ? void 0 : _b.includes("application/json")) {
           data = yield response.json();
         } else {
@@ -14125,9 +14119,9 @@ function init(settings) {
     amp: false,
     dev: false,
     entry: {
-      file: "/./_app/start-c564c7ba.js",
+      file: "/./_app/start-0ce09aa8.js",
       css: ["/./_app/assets/start-0826e215.css"],
-      js: ["/./_app/start-c564c7ba.js", "/./_app/chunks/vendor-d2e7b85d.js"]
+      js: ["/./_app/start-0ce09aa8.js", "/./_app/chunks/vendor-daf4a0af.js"]
     },
     fetched: void 0,
     floc: false,
@@ -14168,6 +14162,20 @@ var manifest = {
     },
     {
       type: "page",
+      pattern: /^\/panel\/?$/,
+      params: empty,
+      a: ["src/routes/__layout.svelte", "src/routes/panel/index.svelte"],
+      b: [".svelte-kit/build/components/error.svelte"]
+    },
+    {
+      type: "page",
+      pattern: /^\/panel\/Card\/?$/,
+      params: empty,
+      a: ["src/routes/__layout.svelte", "src/routes/panel/Card.svelte"],
+      b: [".svelte-kit/build/components/error.svelte"]
+    },
+    {
+      type: "page",
       pattern: /^\/poll\/?$/,
       params: empty,
       a: ["src/routes/__layout.svelte", "src/routes/poll/index.svelte"],
@@ -14194,7 +14202,13 @@ var module_lookup = {
     return error2;
   }),
   "src/routes/index.svelte": () => Promise.resolve().then(function() {
+    return index$2;
+  }),
+  "src/routes/panel/index.svelte": () => Promise.resolve().then(function() {
     return index$1;
+  }),
+  "src/routes/panel/Card.svelte": () => Promise.resolve().then(function() {
+    return Card$1;
   }),
   "src/routes/poll/index.svelte": () => Promise.resolve().then(function() {
     return index;
@@ -14203,7 +14217,7 @@ var module_lookup = {
     return _id_;
   })
 };
-var metadata_lookup = {"src/routes/__layout.svelte": {"entry": "/./_app/pages/__layout.svelte-84590fa5.js", "css": ["/./_app/assets/pages/__layout.svelte-590f7f12.css"], "js": ["/./_app/pages/__layout.svelte-84590fa5.js", "/./_app/chunks/vendor-d2e7b85d.js"], "styles": null}, ".svelte-kit/build/components/error.svelte": {"entry": "/./_app/error.svelte-a8d56f5f.js", "css": [], "js": ["/./_app/error.svelte-a8d56f5f.js", "/./_app/chunks/vendor-d2e7b85d.js"], "styles": null}, "src/routes/index.svelte": {"entry": "/./_app/pages/index.svelte-97058010.js", "css": [], "js": ["/./_app/pages/index.svelte-97058010.js", "/./_app/chunks/vendor-d2e7b85d.js", "/./_app/chunks/appwrite-2a3bdbb5.js"], "styles": null}, "src/routes/poll/index.svelte": {"entry": "/./_app/pages/poll/index.svelte-d7672aa7.js", "css": [], "js": ["/./_app/pages/poll/index.svelte-d7672aa7.js", "/./_app/chunks/vendor-d2e7b85d.js", "/./_app/chunks/appwrite-2a3bdbb5.js"], "styles": null}, "src/routes/poll/[id].svelte": {"entry": "/./_app/pages/poll/[id].svelte-20e4fa4e.js", "css": [], "js": ["/./_app/pages/poll/[id].svelte-20e4fa4e.js", "/./_app/chunks/vendor-d2e7b85d.js", "/./_app/chunks/appwrite-2a3bdbb5.js"], "styles": null}};
+var metadata_lookup = {"src/routes/__layout.svelte": {"entry": "/./_app/pages/__layout.svelte-4918208c.js", "css": ["/./_app/assets/pages/__layout.svelte-01f7b364.css"], "js": ["/./_app/pages/__layout.svelte-4918208c.js", "/./_app/chunks/vendor-daf4a0af.js"], "styles": null}, ".svelte-kit/build/components/error.svelte": {"entry": "/./_app/error.svelte-d2d1f8ab.js", "css": [], "js": ["/./_app/error.svelte-d2d1f8ab.js", "/./_app/chunks/vendor-daf4a0af.js"], "styles": null}, "src/routes/index.svelte": {"entry": "/./_app/pages/index.svelte-dbe98e05.js", "css": [], "js": ["/./_app/pages/index.svelte-dbe98e05.js", "/./_app/chunks/vendor-daf4a0af.js", "/./_app/chunks/appwrite-13633da8.js"], "styles": null}, "src/routes/panel/index.svelte": {"entry": "/./_app/pages/panel/index.svelte-d14f0f2f.js", "css": [], "js": ["/./_app/pages/panel/index.svelte-d14f0f2f.js", "/./_app/chunks/vendor-daf4a0af.js", "/./_app/chunks/appwrite-13633da8.js", "/./_app/pages/panel/Card.svelte-2aac8e6c.js"], "styles": null}, "src/routes/panel/Card.svelte": {"entry": "/./_app/pages/panel/Card.svelte-2aac8e6c.js", "css": [], "js": ["/./_app/pages/panel/Card.svelte-2aac8e6c.js", "/./_app/chunks/vendor-daf4a0af.js", "/./_app/chunks/appwrite-13633da8.js"], "styles": null}, "src/routes/poll/index.svelte": {"entry": "/./_app/pages/poll/index.svelte-bc17759b.js", "css": [], "js": ["/./_app/pages/poll/index.svelte-bc17759b.js", "/./_app/chunks/vendor-daf4a0af.js", "/./_app/chunks/appwrite-13633da8.js"], "styles": null}, "src/routes/poll/[id].svelte": {"entry": "/./_app/pages/poll/[id].svelte-b3ca927e.js", "css": [], "js": ["/./_app/pages/poll/[id].svelte-b3ca927e.js", "/./_app/chunks/vendor-daf4a0af.js", "/./_app/chunks/appwrite-13633da8.js"], "styles": null}};
 async function load_component(file) {
   return {
     module: await module_lookup[file](),
@@ -14261,25 +14275,72 @@ var sdk = new Appwrite();
 sdk.setEndpoint(server.endpoint).setProject(server.project);
 var prerender = true;
 var Routes = create_ssr_component(($$result, $$props, $$bindings, slots) => {
-  let name = "Please log in!";
+  let user;
   onMount(() => {
     let promise = sdk.account.get();
     promise.then(function(response) {
       console.log(response);
-      name = response.name;
+      user = response;
     }, function(error22) {
       console.log(error22);
     });
   });
-  return `${$$result.head += `${$$result.title = `<title>Home</title>`, ""}`, ""}
-<h1 class="${"mx-10 px-3 py-2"}">${escape2(name)}</h1>
-<button class="${"mx-10 border-2 border-blue-600 rounded-lg px-3 py-2 text-blue-400 cursor-pointer hover:bg-blue-600 hover:text-blue-200"}">Login with Discord</button>`;
+  return `${$$result.head += `${$$result.title = `<title>Discord login</title>`, ""}`, ""}
+
+${user ? `<h1 class="${"mx-10 px-3 py-2"}">${escape2(user.name)}</h1>
+	<a href="${"/panel"}"><button class="${"mx-10 border-2 border-blue-600 rounded-lg px-3 py-2 text-blue-400 cursor-pointer hover:bg-blue-600 hover:text-blue-200"}">Access Panel</button></a>
+	<button class="${"mx-10 border-2 border-red-600 rounded-lg px-3 py-2 text-red-400 cursor-pointer hover:bg-red-600 hover:text-red-200"}">Logout</button>` : `<h1 class="${"mx-10 px-3 py-2"}">Please Log in!</h1>
+	<button class="${"mx-10 border-2 border-blue-600 rounded-lg px-3 py-2 text-blue-400 cursor-pointer hover:bg-blue-600 hover:text-blue-200"}">Login with Discord</button>`}`;
 });
-var index$1 = /* @__PURE__ */ Object.freeze({
+var index$2 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   "default": Routes,
   prerender
+});
+var Card = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let {question = "No question provided"} = $$props;
+  let {id} = $$props;
+  let buttonText = "DELETE";
+  let css2 = "bg-red-500";
+  if ($$props.question === void 0 && $$bindings.question && question !== void 0)
+    $$bindings.question(question);
+  if ($$props.id === void 0 && $$bindings.id && id !== void 0)
+    $$bindings.id(id);
+  return `<div class="${"p-2 lg:w-1/3 md:w-1/2 w-full"}"><div class="${"h-full flex items-center border-gray-800 border p-4 rounded-lg"}"><div class="${"flex-grow"}"><h2 class="${"text-white title-font font-medium"}">${escape2(question)}</h2>
+          <button class="${escape2(css2) + " inline-flex mt-4 text-white border-0 py-2 px-6 focus:outline-none w-full rounded text-lg"}" ${""}>${escape2(buttonText)}</button></div></div></div>`;
+});
+var Card$1 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": Card
+});
+var Panel = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let data;
+  onMount(() => {
+    let promise = sdk.teams.list("Admin");
+    promise.then(function(response) {
+      if (response.teams[0].name == "Admin") {
+        let promise2 = sdk.database.listDocuments("60a4524fa1134");
+        promise2.then(function(response2) {
+          data = response2;
+        }, function(error22) {
+          console.log(error22);
+        });
+      }
+    }, function(error22) {
+      console.log(error22);
+    });
+  });
+  return `${data ? `<section class="${"text-gray-400 bg-gray-900 body-font"}"><div class="${"container px-5 py-24 mx-auto"}"><div class="${"flex flex-col text-center w-full mb-20"}"><h1 class="${"sm:text-3xl text-2xl font-medium title-font mb-4 text-white"}">Edit documents!
+        </h1></div>
+      <div class="${"flex flex-wrap -m-2"}">${each(data.documents, (data2, i) => `${validate_component(Card, "Card").$$render($$result, {question: data2.question, id: data2.$id}, {}, {})}`)}</div></div></section>` : `<section class="${"text-gray-400 bg-gray-900 body-font"}"><div class="${"container px-5 py-24 mx-auto"}"><div class="${"flex flex-col text-center w-full mb-20"}"><h1 class="${"sm:text-3xl text-2xl font-medium title-font mb-4 text-white"}">You don&#39;t have access to the panel!
+        </h1></div></div></section>`}`;
+});
+var index$1 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": Panel
 });
 var Poll = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let data;
@@ -14409,3 +14470,17 @@ var entry_default = async (req, res) => {
  * Copyright(c) 2015 Douglas Christopher Wilson
  * MIT Licensed
  */
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH
+REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT,
+INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM
+LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
+OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+PERFORMANCE OF THIS SOFTWARE.
+***************************************************************************** */
