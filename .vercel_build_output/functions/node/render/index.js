@@ -9033,9 +9033,9 @@ var require_asynckit = __commonJS({
   }
 });
 
-// node_modules/isomorphic-form-data/node_modules/form-data/lib/populate.js
+// node_modules/form-data/lib/populate.js
 var require_populate = __commonJS({
-  "node_modules/isomorphic-form-data/node_modules/form-data/lib/populate.js"(exports, module2) {
+  "node_modules/form-data/lib/populate.js"(exports, module2) {
     module2.exports = function(dst, src2) {
       Object.keys(src2).forEach(function(prop) {
         dst[prop] = dst[prop] || src2[prop];
@@ -9045,9 +9045,9 @@ var require_populate = __commonJS({
   }
 });
 
-// node_modules/isomorphic-form-data/node_modules/form-data/lib/form_data.js
+// node_modules/form-data/lib/form_data.js
 var require_form_data = __commonJS({
-  "node_modules/isomorphic-form-data/node_modules/form-data/lib/form_data.js"(exports, module2) {
+  "node_modules/form-data/lib/form_data.js"(exports, module2) {
     var CombinedStream = require_combined_stream();
     var util = require("util");
     var path = require("path");
@@ -12772,6 +12772,11 @@ function create_ssr_component(fn) {
     $$render
   };
 }
+function add_attribute(name, value, boolean) {
+  if (value == null || boolean && !value)
+    return "";
+  return ` ${name}${value === true ? "" : `=${typeof value === "string" ? JSON.stringify(escape2(value)) : `"${value}"`}`}`;
+}
 function destroy_component(component, detaching) {
   const $$ = component.$$;
   if ($$.fragment !== null) {
@@ -12856,7 +12861,7 @@ function v4() {
   return out;
 }
 
-// node_modules/aw-test-rollup/dist/esm/sdk.js
+// node_modules/appwrite/dist/esm/sdk.js
 var import_isomorphic_form_data = __toModule(require_lib());
 var import_cross_fetch = __toModule(require_node_ponyfill());
 function __awaiter(thisArg, _arguments, P, generator) {
@@ -12904,7 +12909,7 @@ var Appwrite = class {
       locale: ""
     };
     this.headers = {
-      "x-sdk-version": "appwrite:web:3.0.3",
+      "x-sdk-version": "appwrite:web:3.0.4",
       "X-Appwrite-Response-Format": "0.8.0"
     };
     this.account = {
@@ -14119,9 +14124,9 @@ function init(settings) {
     amp: false,
     dev: false,
     entry: {
-      file: "/./_app/start-0ce09aa8.js",
+      file: "/./_app/start-cc41fb32.js",
       css: ["/./_app/assets/start-0826e215.css"],
-      js: ["/./_app/start-0ce09aa8.js", "/./_app/chunks/vendor-daf4a0af.js"]
+      js: ["/./_app/start-cc41fb32.js", "/./_app/chunks/vendor-cedc370d.js"]
     },
     fetched: void 0,
     floc: false,
@@ -14169,6 +14174,13 @@ var manifest = {
     },
     {
       type: "page",
+      pattern: /^\/panel\/Create\/?$/,
+      params: empty,
+      a: ["src/routes/__layout.svelte", "src/routes/panel/Create.svelte"],
+      b: [".svelte-kit/build/components/error.svelte"]
+    },
+    {
+      type: "page",
       pattern: /^\/panel\/Card\/?$/,
       params: empty,
       a: ["src/routes/__layout.svelte", "src/routes/panel/Card.svelte"],
@@ -14207,6 +14219,9 @@ var module_lookup = {
   "src/routes/panel/index.svelte": () => Promise.resolve().then(function() {
     return index$1;
   }),
+  "src/routes/panel/Create.svelte": () => Promise.resolve().then(function() {
+    return Create$1;
+  }),
   "src/routes/panel/Card.svelte": () => Promise.resolve().then(function() {
     return Card$1;
   }),
@@ -14217,7 +14232,7 @@ var module_lookup = {
     return _id_;
   })
 };
-var metadata_lookup = {"src/routes/__layout.svelte": {"entry": "/./_app/pages/__layout.svelte-4918208c.js", "css": ["/./_app/assets/pages/__layout.svelte-01f7b364.css"], "js": ["/./_app/pages/__layout.svelte-4918208c.js", "/./_app/chunks/vendor-daf4a0af.js"], "styles": null}, ".svelte-kit/build/components/error.svelte": {"entry": "/./_app/error.svelte-d2d1f8ab.js", "css": [], "js": ["/./_app/error.svelte-d2d1f8ab.js", "/./_app/chunks/vendor-daf4a0af.js"], "styles": null}, "src/routes/index.svelte": {"entry": "/./_app/pages/index.svelte-dbe98e05.js", "css": [], "js": ["/./_app/pages/index.svelte-dbe98e05.js", "/./_app/chunks/vendor-daf4a0af.js", "/./_app/chunks/appwrite-13633da8.js"], "styles": null}, "src/routes/panel/index.svelte": {"entry": "/./_app/pages/panel/index.svelte-d14f0f2f.js", "css": [], "js": ["/./_app/pages/panel/index.svelte-d14f0f2f.js", "/./_app/chunks/vendor-daf4a0af.js", "/./_app/chunks/appwrite-13633da8.js", "/./_app/pages/panel/Card.svelte-2aac8e6c.js"], "styles": null}, "src/routes/panel/Card.svelte": {"entry": "/./_app/pages/panel/Card.svelte-2aac8e6c.js", "css": [], "js": ["/./_app/pages/panel/Card.svelte-2aac8e6c.js", "/./_app/chunks/vendor-daf4a0af.js", "/./_app/chunks/appwrite-13633da8.js"], "styles": null}, "src/routes/poll/index.svelte": {"entry": "/./_app/pages/poll/index.svelte-bc17759b.js", "css": [], "js": ["/./_app/pages/poll/index.svelte-bc17759b.js", "/./_app/chunks/vendor-daf4a0af.js", "/./_app/chunks/appwrite-13633da8.js"], "styles": null}, "src/routes/poll/[id].svelte": {"entry": "/./_app/pages/poll/[id].svelte-b3ca927e.js", "css": [], "js": ["/./_app/pages/poll/[id].svelte-b3ca927e.js", "/./_app/chunks/vendor-daf4a0af.js", "/./_app/chunks/appwrite-13633da8.js"], "styles": null}};
+var metadata_lookup = {"src/routes/__layout.svelte": {"entry": "/./_app/pages/__layout.svelte-4533588d.js", "css": ["/./_app/assets/pages/__layout.svelte-bacedfcb.css"], "js": ["/./_app/pages/__layout.svelte-4533588d.js", "/./_app/chunks/vendor-cedc370d.js"], "styles": null}, ".svelte-kit/build/components/error.svelte": {"entry": "/./_app/error.svelte-849f14f7.js", "css": [], "js": ["/./_app/error.svelte-849f14f7.js", "/./_app/chunks/vendor-cedc370d.js"], "styles": null}, "src/routes/index.svelte": {"entry": "/./_app/pages/index.svelte-7528fe52.js", "css": [], "js": ["/./_app/pages/index.svelte-7528fe52.js", "/./_app/chunks/vendor-cedc370d.js", "/./_app/chunks/appwrite-22879618.js"], "styles": null}, "src/routes/panel/index.svelte": {"entry": "/./_app/pages/panel/index.svelte-e1d70636.js", "css": [], "js": ["/./_app/pages/panel/index.svelte-e1d70636.js", "/./_app/chunks/vendor-cedc370d.js", "/./_app/chunks/appwrite-22879618.js", "/./_app/pages/panel/Card.svelte-27a56507.js", "/./_app/pages/panel/Create.svelte-9891843c.js"], "styles": null}, "src/routes/panel/Create.svelte": {"entry": "/./_app/pages/panel/Create.svelte-9891843c.js", "css": [], "js": ["/./_app/pages/panel/Create.svelte-9891843c.js", "/./_app/chunks/vendor-cedc370d.js", "/./_app/chunks/appwrite-22879618.js"], "styles": null}, "src/routes/panel/Card.svelte": {"entry": "/./_app/pages/panel/Card.svelte-27a56507.js", "css": [], "js": ["/./_app/pages/panel/Card.svelte-27a56507.js", "/./_app/chunks/vendor-cedc370d.js", "/./_app/chunks/appwrite-22879618.js"], "styles": null}, "src/routes/poll/index.svelte": {"entry": "/./_app/pages/poll/index.svelte-71f619ce.js", "css": [], "js": ["/./_app/pages/poll/index.svelte-71f619ce.js", "/./_app/chunks/vendor-cedc370d.js", "/./_app/chunks/appwrite-22879618.js"], "styles": null}, "src/routes/poll/[id].svelte": {"entry": "/./_app/pages/poll/[id].svelte-23131009.js", "css": [], "js": ["/./_app/pages/poll/[id].svelte-23131009.js", "/./_app/chunks/vendor-cedc370d.js", "/./_app/chunks/appwrite-22879618.js"], "styles": null}};
 async function load_component(file) {
   return {
     module: await module_lookup[file](),
@@ -14315,6 +14330,26 @@ var Card$1 = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   "default": Card
 });
+var Create = create_ssr_component(($$result, $$props, $$bindings, slots) => {
+  let question;
+  let options2;
+  let answer;
+  return `<section class="${"text-gray-400 bg-gray-900 body-font relative"}"><div class="${"container px-5 py-4 mx-auto flex sm:flex-nowrap flex-wrap"}"><div class="${"flex flex-col md:ml-auto w-full md:py-8 md:mt-0"}"><h2 class="${"text-white text-lg mb-1 font-medium title-font"}">Create Poll
+            </h2>
+            <div class="${"relative mb-4"}"><label for="${"question"}" class="${"leading-7 text-sm text-gray-400"}">Question</label>
+                <input type="${"text"}" id="${"question"}" name="${"question"}" class="${"w-full bg-gray-800 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"}"${add_attribute("value", question, 1)}></div>
+            <div class="${"relative mb-4"}"><label for="${"options"}" class="${"leading-7 text-sm text-gray-400"}">Options (add multiple by adding a comma</label>
+                <input type="${"text"}" id="${"options"}" name="${"options"}" class="${"w-full bg-gray-800 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"}"${add_attribute("value", options2, 1)}></div>
+            <div class="${"relative mb-4"}"><label for="${"answer"}" class="${"leading-7 text-sm text-gray-400"}">Answer</label>
+                <input type="${"text"}" id="${"answer"}" name="${"answer"}" class="${"w-full bg-gray-800 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"}"${add_attribute("value", answer, 1)}></div>
+
+            <button class="${"text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg"}">Send</button></div></div></section>`;
+});
+var Create$1 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  "default": Create
+});
 var Panel = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let data;
   onMount(() => {
@@ -14332,9 +14367,10 @@ var Panel = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       console.log(error22);
     });
   });
-  return `${data ? `<section class="${"text-gray-400 bg-gray-900 body-font"}"><div class="${"container px-5 py-24 mx-auto"}"><div class="${"flex flex-col text-center w-full mb-20"}"><h1 class="${"sm:text-3xl text-2xl font-medium title-font mb-4 text-white"}">Edit documents!
+  return `${data ? `<section class="${"text-gray-400 bg-gray-900 body-font"}"><div class="${"container px-5 py-4 pt-20 mx-auto"}"><div class="${"flex flex-col text-center w-full"}"><h1 class="${"sm:text-3xl text-2xl font-medium title-font mb-4 text-white"}">Edit documents!
         </h1></div>
-      <div class="${"flex flex-wrap -m-2"}">${each(data.documents, (data2, i) => `${validate_component(Card, "Card").$$render($$result, {question: data2.question, id: data2.$id}, {}, {})}`)}</div></div></section>` : `<section class="${"text-gray-400 bg-gray-900 body-font"}"><div class="${"container px-5 py-24 mx-auto"}"><div class="${"flex flex-col text-center w-full mb-20"}"><h1 class="${"sm:text-3xl text-2xl font-medium title-font mb-4 text-white"}">You don&#39;t have access to the panel!
+      <div class="${"flex flex-wrap"}">${each(data.documents, (data2, i) => `${validate_component(Card, "Card").$$render($$result, {question: data2.question, id: data2.$id}, {}, {})}`)}</div></div></section>
+  ${validate_component(Create, "Create").$$render($$result, {}, {}, {})}` : `<section class="${"text-gray-400 bg-gray-900 body-font"}"><div class="${"container px-5 py-4 mx-auto"}"><div class="${"flex flex-col text-center w-full mb-20"}"><h1 class="${"sm:text-3xl text-2xl font-medium title-font mb-4 text-white"}">You don&#39;t have access to the panel!
         </h1></div></div></section>`}`;
 });
 var index$1 = /* @__PURE__ */ Object.freeze({
