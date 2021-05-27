@@ -6,7 +6,7 @@
 	import { onMount } from "svelte";
 	import { sdk } from "../appwrite";
 	let user;
-
+	let image
 	onMount(() => {
 		let promise = sdk.account.get();
 
@@ -14,6 +14,28 @@
 			function (response) {
 				console.log(response); // Success
 				user = response;
+
+				let promise = sdk.account.getSessions();
+
+				promise.then(
+					function (response) {
+						console.log(response.sessions[0].providerToken); // Success
+						fetch("https://discord.com/api/users/@me", {
+							headers: {
+								authorization: `Bearer ${response.sessions[0].providerToken}`,
+							},
+						})
+							.then((result) => result.json())
+							.then((response) => {
+								console.log(response)
+								image = `https://cdn.discordapp.com/avatars/${response.id}/${response.avatar}.webp?size=128`
+							})
+							.catch(console.error);
+					},
+					function (error) {
+						console.log(error); // Failure
+					}
+				);
 			},
 			function (error) {
 				console.log(error); // Failure
@@ -24,8 +46,9 @@
 	function loginDiscord() {
 		sdk.account.createOAuth2Session(
 			"discord",
-			"http://appwrite-test.fabian9799.cloud/",
-			"http://appwrite-test.fabian9799.cloud/"
+			import.meta.env.VITE_DISCORD_REDIRECT,
+			import.meta.env.VITE_DISCORD_REDIRECT,
+			["identify"]
 		);
 	}
 
@@ -49,7 +72,8 @@
 </svelte:head>
 
 {#if user}
-	<h1 class="mx-10 px-3 py-2">{user.name}</h1>
+<img class="mx-10 px-3 py-2" src={image} alt="">
+<h1 class="mx-10 px-3 py-2">{user.name}</h1>
 	<a href="/panel">
 		<button
 			class="mx-10 border-2 border-blue-600 rounded-lg px-3 py-2 text-blue-400 cursor-pointer hover:bg-blue-600 hover:text-blue-200"
