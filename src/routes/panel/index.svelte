@@ -5,7 +5,7 @@
   import Create from "./Create.svelte";
   let data;
   onMount(() => {
-    let promise = sdk.teams.list("Admin");
+    let promise = sdk.teams.list("60a64fce28ddd");
 
     promise.then(
       function (response) {
