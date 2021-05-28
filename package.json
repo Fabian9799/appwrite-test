@@ -30,6 +30,7 @@
     "@fontsource/fira-mono": "^4.2.2",
     "@lukeed/uuid": "^2.0.0",
     "appwrite": "^3.0.4",
-    "cookie": "^0.4.1"
+    "cookie": "^0.4.1",
+    "daisyui": "^1.2.0"
   }
 }

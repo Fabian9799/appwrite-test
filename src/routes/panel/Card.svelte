@@ -1,9 +1,11 @@
 <script>
     export let question = "No question provided"
     export let id
+    export let answers = "No answer provided"
+    export let result = "No result provided"
     let buttonText = "DELETE"
     let status = false
-    let css = "bg-red-500"
+    let css = "btn btn-primary"
     import { sdk } from "../../appwrite";
     function deleteEntry() {
         let promise = sdk.database.deleteDocument('60a4524fa1134', id);
@@ -11,7 +13,7 @@
 promise.then(function (response) {
     console.log(response); // Success
     status = true
-    css = "cursor-not-allowed bg-green-500"
+    css = "cursor-not-allowed btn btn-secondary"
     buttonText = "Deleted!"
 }, function (error) {
     console.log(error); // Failure
@@ -20,12 +22,13 @@ promise.then(function (response) {
     }
 </script>
 
-
-<div class="p-2 lg:w-1/3 md:w-1/2 w-full">
-    <div class="h-full flex items-center border-gray-800 border p-4 rounded-lg">
-      <div class="flex-grow">
-        <h2 class="text-white title-font font-medium">{question}</h2>
-          <button on:click={deleteEntry} class="{css} inline-flex mt-4 text-white border-0 py-2 px-6 focus:outline-none w-full rounded text-lg" disabled={status}>{buttonText}</button>
-      </div>
+<div class="card flex-grow m-5 lg:w-1/3 md:w-1/3 w-full shadow-lg bg-base-200">
+  <div class="card-body">
+    <h2 class="card-title">{question}</h2> 
+    <p>Answers: {answers}</p> 
+    <p>Result: {result}</p> 
+    <div class="card-actions">
+      <button on:click={deleteEntry} class={css}>Delete</button> 
     </div>
   </div>
+</div> 

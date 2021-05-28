@@ -6,7 +6,9 @@
 	import { onMount } from "svelte";
 	import { sdk } from "../appwrite";
 	let user;
-	let image
+	let name = ""
+	let image =
+		"https://discord.com/assets/6debd47ed13483642cf09e832ed0bc1b.png";
 	onMount(() => {
 		let promise = sdk.account.get();
 
@@ -14,6 +16,7 @@
 			function (response) {
 				console.log(response); // Success
 				user = response;
+				name = user.name
 
 				let promise = sdk.account.getSessions();
 
@@ -27,8 +30,8 @@
 						})
 							.then((result) => result.json())
 							.then((response) => {
-								console.log(response)
-								image = `https://cdn.discordapp.com/avatars/${response.id}/${response.avatar}.webp?size=128`
+								console.log(response);
+								image = `https://cdn.discordapp.com/avatars/${response.id}/${response.avatar}.webp?size=128`;
 							})
 							.catch(console.error);
 					},
@@ -70,26 +73,50 @@
 <svelte:head>
 	<title>Discord login</title>
 </svelte:head>
-
-{#if user}
-<img class="mx-10 px-3 py-2" src={image} alt="">
-<h1 class="mx-10 px-3 py-2">{user.name}</h1>
-	<a href="/panel">
-		<button
-			class="mx-10 border-2 border-blue-600 rounded-lg px-3 py-2 text-blue-400 cursor-pointer hover:bg-blue-600 hover:text-blue-200"
-			>Access Panel</button
-		></a
-	>
-	<button
-		on:click={logoutDiscord}
-		class="mx-10 border-2 border-red-600 rounded-lg px-3 py-2 text-red-400 cursor-pointer hover:bg-red-600 hover:text-red-200"
-		>Logout</button
-	>
-{:else}
-	<h1 class="mx-10 px-3 py-2">Please Log in!</h1>
-	<button
-		on:click={loginDiscord}
-		class="mx-10 border-2 border-blue-600 rounded-lg px-3 py-2 text-blue-400 cursor-pointer hover:bg-blue-600 hover:text-blue-200"
-		>Login with Discord</button
-	>
-{/if}
+<div class="navbar mb-2 shadow-lg bg-neutral text-neutral-content rounded-box">
+	<div class="flex-none px-2 mx-2">
+		<span class="text-lg font-bold"> SomeTitle </span>
+	</div>
+	<div class="flex-1 px-2 mx-2">
+		{#if user}
+			<div class="items-stretch lg:flex">
+				<a href="/panel" class="btn btn-ghost btn-sm rounded-btn">
+					Panel
+				</a>
+			</div>
+			<div class="items-stretch lg:flex">
+				<a
+					on:click={logoutDiscord}
+					class="btn btn-ghost btn-sm rounded-btn"
+				>
+					Logout
+				</a>
+			</div>
+		{:else}
+			<div class="items-stretch hidden lg:flex">
+				<a
+					on:click={loginDiscord}
+					class="btn btn-ghost btn-sm rounded-btn"
+				>
+					Login
+				</a>
+			</div>
+		{/if}
+	</div>
+	<div class="flex-none hidden px-2 mx-2 lg:flex">
+		<div class="flex items-stretch">
+			<a class="btn btn-ghost btn-sm rounded-btn">
+				{name}
+			</a>
+		</div>
+	</div>
+	<div class="flex-none">
+		<div class="flex-none">
+			<div class="avatar">
+				<div class="rounded-full w-10 h-10 m-1">
+					<img src={image} />
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
