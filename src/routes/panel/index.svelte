@@ -3,6 +3,8 @@
   import { sdk } from "../../appwrite";
   import Card from "./Card.svelte";
   import Create from "./Create.svelte";
+  import ThemeSwitcher from "$lib/ThemeSwitcher/index.svelte"
+
   let data;
   let status = 0
   onMount(() => {
@@ -36,7 +38,10 @@
 <div class="card lg:card-side bordered text-white">
   <div class="card-body">
     <div class="flex flex-col text-center w-full">
-      <h2 class="card-title text-center text-5xl font-bold">Edit documents</h2> 
+      <h2 class="card-title text-center text-5xl font-bold">Edit documents </h2> 
+      <div class="text-right mt-5">
+        <ThemeSwitcher/>
+      </div>
     </div>
     <div class="flex flex-wrap">
       {#each data.documents as data, i}
@@ -61,3 +66,4 @@
   </div>
 </div>
 {/if}
+
