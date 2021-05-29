@@ -4,6 +4,7 @@
   import Card from "./Card.svelte";
   import Create from "./Create.svelte";
   let data;
+  let status = 0
   onMount(() => {
     let promise = sdk.teams.list("60a64fce28ddd");
 
@@ -15,6 +16,7 @@
           promise.then(
             function (response) {
               data = response;
+              status = 1
             },
             function (error) {
               console.log(error); // Failure
@@ -24,12 +26,13 @@
       },
       function (error) {
         console.log(error); // Failure
+        status = 2
       }
     );
   });
 </script>
 
-{#if data}
+{#if status == 1}
 <div class="card lg:card-side bordered text-white">
   <div class="card-body">
     <div class="flex flex-col text-center w-full">
@@ -45,7 +48,8 @@
 </div>
 
   <Create />
-{:else}
+{/if}
+{#if status == 2}
 <div class="alert">
   <div class="flex-1 text-neutral-content">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#ff5722" class="w-6 h-6 mx-2"><!----> <!----> <!----> <!----> 
