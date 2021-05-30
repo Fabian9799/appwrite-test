@@ -28,7 +28,7 @@
     }
 </script>
 
-<div class="card lg:card-side bordered text-white mt-5">
+<div class="card lg:card-side bordered text-base-content mt-5">
     <div class="card-body">
         <div class="flex flex-col text-center w-full">
             <h2 class="card-title text-center text-5xl font-bold mb-8">

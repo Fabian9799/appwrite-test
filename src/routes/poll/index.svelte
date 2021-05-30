@@ -9,6 +9,7 @@
         promise.then(
             function (response) {
                 console.log(response);
+                // @ts-ignore
                 data = response.documents;
             },
             function (error) {
