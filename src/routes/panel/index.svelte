@@ -11,6 +11,7 @@
 
     promise.then(
       function (response) {
+        // @ts-ignore
         if (response.teams[0].name == "Admin") {
           let promise = sdk.database.listDocuments("60a4524fa1134");
 
@@ -54,7 +55,7 @@
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#ff5722" class="w-6 h-6 mx-2"><!----> <!----> <!----> <!----> 
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!----> <!---->
     </svg> 
-    <label>You don't have access to the panel!</label>
+    <label for="noaccess">You don't have access to the panel!</label>
   </div> 
   <div class="flex-none">
   </div>
